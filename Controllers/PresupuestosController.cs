@@ -38,9 +38,16 @@ public class PresupuestosController : Controller
         _presupuestoRepository.DeleteById(id);
         return Ok();
     }
+    [HttpGet]
     public IActionResult Index()
     {
         List<Presupuestos> presupuestos = _presupuestoRepository.GetAll();
         return View(presupuestos);
+    }
+    [HttpGet]
+    public IActionResult Detais()
+    {
+        
+        return View();
     }
 }
