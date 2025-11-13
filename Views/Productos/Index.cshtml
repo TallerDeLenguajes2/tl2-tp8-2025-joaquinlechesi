@@ -1,0 +1,31 @@
+
+<h2>Lista de Productos</h2>
+
+<p>
+    <a asp-controller="Producto" asp-action="Create" class="btn btn-primary">Crear Nuevo Producto</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Productos item in Model)
+        {
+            <tr>
+                <td>@item.IdProducto</td>
+                <td>@item.Description</td>
+                <td>@item.Precio</td>
+                <td>
+                    @* <a asp-controller="Producto" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Modificar</a>
+                    <a asp-controller ="Producto" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a> *@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
