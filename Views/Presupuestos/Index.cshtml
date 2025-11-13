@@ -1,0 +1,31 @@
+
+<h2>Lista de Presupuestos</h2>
+
+<p>
+    <a asp-controller="" asp-action="" class="btn btn-primary">Crear Nuevo Presupuesto</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID del Presupuesto</th>
+            <th>Nombre del Destinatario</th>
+            <th>Fecha de creacion</th>
+            @* <th>Acciones</th> *@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Presupuestos item in Model)
+        {
+            <tr>
+                <td>@item.IdPresupuestos</td>
+                <td>@item.NombreDestinatario</td>
+                <td>@item.FechaCreacion</td>
+                <td>
+                    @* <a asp-controller="Producto" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Modificar</a>
+                    <a asp-controller ="Producto" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a> *@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
