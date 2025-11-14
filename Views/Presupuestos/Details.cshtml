@@ -1,13 +1,13 @@
 @model Presupuestos
 
-<h2>@Model.NombreDestinatario</h2>
+<h2>@Model.NombreDestinatario - Fecha: @Model.FechaCreacion</h2>
 
 <table class="table">
     <thead>
         <tr>
             <th>Productos</th>
-            @* <th>Nombre del Destinatario</th>
-            <th>Fecha de creacion</th> *@
+            <th>Cantidad</th>
+            @* <th>Fecha de creacion</th> *@
             @* <th>Acciones</th> *@
         </tr>
     </thead>
@@ -16,8 +16,8 @@
         {
             <tr>
                 <td>@item.productos.Description</td>
+                <td>@item.Cantidad</td>
                 @* <td></td>
-                <td></td>
                 <td>
                     <a asp-controller="Producto" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Modificar</a>
                     <a asp-controller ="Producto" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>

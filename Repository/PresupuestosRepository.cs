@@ -49,16 +49,16 @@ public class PresupuestoRepository
         var presupuesto = new Presupuestos();
         connection.Open();
         string query = @"SELECT
-                        p.idPresupuestos,
-                        p.NombreDestinatario,
-                        p.FechaCreacion,
-                        pr.idProducto,
-                        pr.Descripcion,
-                        pr.Precio,
-                        d.Cantidad
-                        FROM Presupuestos p INNER JOIN PresupuestosDetalle d ON p.idPresupuestos = d.idPresupuesto
-                                            INNER JOIN Productos pr ON d.idProducto = pr.idProducto
-                        WHERE p.idPresupuestos = @id";
+                         p.idPresupuestos,
+                         p.NombreDestinatario,
+                         p.FechaCreacion,
+                         pr.idProducto,
+                         pr.Descripcion,
+                         pr.Precio,
+                         d.Cantidad
+                         FROM Presupuestos p INNER JOIN PresupuestosDetalle d ON p.idPresupuestos = d.idPresupuesto
+                                             INNER JOIN Productos pr ON d.idProducto = pr.idProducto
+                         WHERE p.idPresupuestos = @id";
         using var command = new SqliteCommand(query, connection);
         command.Parameters.Add(new SqliteParameter("@id", id));
 
