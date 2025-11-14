@@ -46,26 +46,25 @@ public class PresupuestoRepository
     public Presupuestos GetById(int id)
     {
         using var connection = new SqliteConnection(cadenaConexion);
-        var presupuestos = new Presupuestos();
+        var presupuesto = new Presupuestos();
         connection.Open();
         string query = @"SELECT
-                        p.idPresupuestos
+                        p.idPresupuestos,
                         p.NombreDestinatario,
                         p.FechaCreacion,
                         pr.idProducto,
                         pr.Descripcion,
                         pr.Precio,
                         d.Cantidad
-                        FROM Presupuestos p
-                        INNER JOIN PresupuestosDetalle d ON p.idProducto = d.idPresupuesto
-                        INNER JOIN Productos pr ON d.idProducto = pr.idProducto
-                        WHERE idPresupuestos = @id";
+                        FROM Presupuestos p INNER JOIN PresupuestosDetalle d ON p.idPresupuestos = d.idPresupuesto
+                                            INNER JOIN Productos pr ON d.idProducto = pr.idProducto
+                        WHERE p.idPresupuestos = @id";
         using var command = new SqliteCommand(query, connection);
         command.Parameters.Add(new SqliteParameter("@id", id));
 
         using var lector = command.ExecuteReader();
 
-        Presupuestos presupuesto = null;
+        presupuesto = null;
 
         while (lector.Read())
         {
@@ -74,7 +73,7 @@ public class PresupuestoRepository
             {
                 presupuesto = new Presupuestos()
                 {
-                    IdPresupuestos = Convert.ToInt32(lector["idPresupuesto"]),
+                    IdPresupuestos = Convert.ToInt32(lector["idPresupuestos"]),
                     NombreDestinatario = lector["NombreDestinatario"].ToString(),
                     FechaCreacion = Convert.ToDateTime(lector["FechaCreacion"]),
                     Detalle = new List<PresupuestosDetalle>()
@@ -103,7 +102,7 @@ public class PresupuestoRepository
         // }
         // connection.Close();
 
-        return presupuestos;
+        return presupuesto;
     }
     // Agregar un producto y una cantidad a un Presupuesto
     public void agregarAPresupuesto(int idPresupuesto, int idProducto, int cantidad)
@@ -111,7 +110,7 @@ public class PresupuestoRepository
         using var connection = new SqliteConnection(cadenaConexion);
         connection.Open();
         string query = @"INSERT INTO PresupuestosDetalles (idPresupuesto, idProducto, Cantidad)
-                            VALUES (@IdPresupuesto, @IdProducto, @cantidad)";
+                         VALUES (@IdPresupuesto, @IdProducto, @cantidad)";
         using var command = new SqliteCommand(query, connection);
         command.Parameters.Add(new SqliteParameter("@IdPresupuesto", idPresupuesto));
         command.Parameters.Add(new SqliteParameter("@IdProducto", idProducto));

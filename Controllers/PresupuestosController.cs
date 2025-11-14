@@ -39,15 +39,19 @@ public class PresupuestosController : Controller
         return Ok();
     }
     [HttpGet]
-    public IActionResult Index()
+    public ActionResult Index()
     {
         List<Presupuestos> presupuestos = _presupuestoRepository.GetAll();
         return View(presupuestos);
     }
     [HttpGet]
-    public IActionResult Detais()
+    public IActionResult Details(int id)
     {
-        
-        return View();
+        var presupuesto = _presupuestoRepository.GetById(id);
+        if (presupuesto is null)
+        {
+            return RedirectToAction("Index");
+        }
+        return View(presupuesto);
     }
 }
