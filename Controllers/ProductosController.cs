@@ -48,4 +48,17 @@ public class ProductosController : Controller
         List<Productos> productos = _productoRepository.GetAll();
         return View(productos);
     }
+    [HttpGet]
+    public IActionResult Create()
+    {
+        var producto = new Productos();
+        return View(producto);
+    }
+    [HttpPost]
+    public IActionResult Create(Productos nuevoProducto)
+    {
+        _productoRepository.nuevoProducto(nuevoProducto);
+        return RedirectToAction("Index");
+    }
+    
 }

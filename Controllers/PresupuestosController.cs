@@ -16,6 +16,10 @@ public class PresupuestosController : Controller
     [HttpPost("postAgregarPresupuestoAPresupuestosDetalles")]
     public IActionResult AgregarPresupuestoAPresupuestosDetalles(int idPresupuesto, int idProducto, int cantidad)
     {
+        var _productoRepository = new ProductoRepository();
+        var producto = _productoRepository.GetById(idProducto);
+        var presupuesto = _presupuestoRepository.GetById(idProducto);
+        if (presupuesto is null || producto is null) return Index(); //deberia impedir dar de alta un registro en PresupuestosDetalles si no existe el Presupuesto o el Producto
         _presupuestoRepository.agregarAPresupuesto(idPresupuesto, idProducto, cantidad);
         //verificar si exite el producto
         return Ok();
@@ -50,7 +54,7 @@ public class PresupuestosController : Controller
         var presupuesto = _presupuestoRepository.GetById(id);
         if (presupuesto is null)
         {
-            return RedirectToAction("Index");
+            return RedirectToAction("Home");
         }
         return View(presupuesto);
     }

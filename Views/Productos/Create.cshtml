@@ -1,0 +1,20 @@
+@model Productos
+
+<h2>Crear Producto</h2>
+
+<form asp-action="Create" method="post">
+    <section class="form-group">
+        <label asp-for="Description" class="control-label">Descripcion</label>
+        <input asp-for="Description" type="text" class="form-control">
+    </section>
+    <section class="form-group">
+        <label asp-for="Precio" class="control-label">Precio</label>
+        <input asp-for="Precio" type="text" class="form-control">
+    </section>
+    <section class="form-group mt-2">
+        <button type="submit" class="btn btn-primary">Crear</button>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </section>
+</form>
+
+<partial name="_ValidationScriptsPartial" />
