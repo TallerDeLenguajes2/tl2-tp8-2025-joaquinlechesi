@@ -1,0 +1,18 @@
+@model Presupuestos
+
+<h2>Crear Presupuesto</h2>
+
+<form asp-action="Create" method="post">
+    <section class="form-group">
+        <label asp-for="NombreDestinatario" class="control-label">Nombre del destinatario</label>
+        <input asp-for="NombreDestinatario" type="text" class="form-control">
+    </section>
+    <section class="form-group">
+        <label asp-for="FechaCreacion" class="control-label">Fecha</label>
+        <input asp-for="FechaCreacion" type="text" class="form-control">
+    </section>
+    <section class="form-group mt-2">
+        <button type="submit" class="btn btn-primary">Crear</button>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </section>
+</form>

@@ -2,7 +2,7 @@
 <h2>Lista de Presupuestos</h2>
 
 <p>
-    <a asp-controller="Presupuestos" asp-action="" class="btn btn-primary">Crear Nuevo Presupuesto</a>
+    <a asp-controller="Presupuestos" asp-action="Create" class="btn btn-primary">Crear Nuevo Presupuesto</a>
 </p>
 
 <table class="table">
@@ -20,7 +20,7 @@
             <tr>
                 <td>@item.IdPresupuestos</td>
                 <td>@item.NombreDestinatario</td>
-                <td>@item.FechaCreacion</td>
+                <td>@item.FechaCreacion.ToString("dd-MM-yyyy")</td>
                 <td>
                     <a asp-controller="Presupuestos" asp-action="Details" asp-route-id="@item.IdPresupuestos" class="btn btn-warning">Detalles del presupuesto</a>
                     @*<a asp-controller ="Producto" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a> *@

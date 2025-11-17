@@ -15,7 +15,7 @@ public class PresupuestoRepository
         conexion.Open();
         using var comando = new SqliteCommand(query, conexion);
         comando.Parameters.Add(new SqliteParameter("@nombre", NuevoPresupuesto.NombreDestinatario));
-        comando.Parameters.Add(new SqliteParameter("@fecha", NuevoPresupuesto.FechaCreacion.ToString()));
+        comando.Parameters.Add(new SqliteParameter("@fecha", NuevoPresupuesto.FechaCreacion.ToString("yyyy-MM-dd")));
         comando.ExecuteNonQuery();
 
         conexion.Close();

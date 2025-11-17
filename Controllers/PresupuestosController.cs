@@ -49,6 +49,24 @@ public class PresupuestosController : Controller
         return View(presupuestos);
     }
     [HttpGet]
+    public IActionResult Create()
+    {
+        var presupuestos = new Presupuestos();
+        return View(presupuestos); //Funcionando
+    }
+    [HttpPost]
+    public IActionResult Create(Presupuestos nuevoPresupuesto)
+    {
+        // var presupuestos = new Presupuestos
+        // {
+        //     NombreDestinatario = nuevoPresupuesto.NombreDestinatario,
+        //     FechaCreacion = nuevoPresupuesto.FechaCreacion.Date
+        // };
+        //return View(presupuestos);
+        _presupuestoRepository.AltaPresupuesto(nuevoPresupuesto);
+        return RedirectToAction("Index"); //Funcionando
+    }
+    [HttpGet]
     public IActionResult Details(int id)
     {
         var presupuesto = _presupuestoRepository.GetById(id);
