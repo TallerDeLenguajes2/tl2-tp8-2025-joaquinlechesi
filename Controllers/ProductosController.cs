@@ -60,5 +60,17 @@ public class ProductosController : Controller
         _productoRepository.nuevoProducto(nuevoProducto);
         return RedirectToAction("Index");
     }
-    
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var producto = _productoRepository.GetById(id);
+        if (producto is null) RedirectToAction("Index");
+        return View(producto); //Funciona
+    }
+    [HttpPost]
+    public IActionResult Edit(Productos productoEditado)
+    {
+        _productoRepository.modificarProducto(productoEditado.IdProducto, productoEditado);
+        return RedirectToAction("Index"); //Dirige a index //Funciona
+    }
 }

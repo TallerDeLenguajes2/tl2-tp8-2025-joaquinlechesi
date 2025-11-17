@@ -22,8 +22,8 @@
                 <td>@item.Description</td>
                 <td>@item.Precio</td>
                 <td>
-                    @* <a asp-controller="Producto" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Modificar</a>
-                    <a asp-controller ="Producto" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a> *@
+                    <a asp-controller="Productos" asp-action="Edit" asp-route-id="@item.IdProducto" class="btn btn-warning">Modificar</a>
+                    @* <a asp-controller ="Producto" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a> *@
                 </td>
             </tr>
         }

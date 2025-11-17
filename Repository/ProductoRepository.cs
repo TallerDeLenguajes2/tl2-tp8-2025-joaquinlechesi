@@ -19,10 +19,11 @@ public class ProductoRepository
     {
         using var conexion = new SqliteConnection(cadenaConexion);
         conexion.Open();
-        string query = "UPDATE Productos SET Descripcion = @descripcion, Precio = @precio WHERE idProducto";
+        string query = "UPDATE Productos SET Descripcion = @descripcion, Precio = @precio WHERE idProducto = @id";
         using var comando = new SqliteCommand(query, conexion);
         comando.Parameters.Add(new SqliteParameter("@descripcion", nuevoProducto.Description));
         comando.Parameters.Add(new SqliteParameter("@precio", nuevoProducto.Precio));
+        comando.Parameters.Add(new SqliteParameter("@id", id));
         comando.ExecuteNonQuery(); //funciona
         conexion.Close();
     }
