@@ -73,4 +73,11 @@ public class ProductosController : Controller
         _productoRepository.modificarProducto(productoEditado.IdProducto, productoEditado);
         return RedirectToAction("Index"); //Dirige a index //Funciona
     }
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        var producto = _productoRepository.GetById(id);
+        if (producto is null) return RedirectToAction("Index");
+        return View();
+    }
 }
