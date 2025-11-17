@@ -11,7 +11,7 @@
             <th>ID del Presupuesto</th>
             <th>Nombre del Destinatario</th>
             <th>Fecha de creacion</th>
-            <th>Detalles</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -23,7 +23,8 @@
                 <td>@item.FechaCreacion.ToString("dd-MM-yyyy")</td>
                 <td>
                     <a asp-controller="Presupuestos" asp-action="Details" asp-route-id="@item.IdPresupuestos" class="btn btn-warning">Detalles del presupuesto</a>
-                    @*<a asp-controller ="Producto" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a> *@
+                    <a asp-controller ="Presupuestos" asp-action="Edit" asp-route-id="@item.IdPresupuestos" class="btn btn-danger">Editar</a>
+                    <a asp-controller ="Presupuestos" asp-action="Delete" asp-route-id="@item.IdPresupuestos" class="btn btn-danger">Borrar</a>
                 </td>
             </tr>
         }

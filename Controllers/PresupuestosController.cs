@@ -76,4 +76,22 @@ public class PresupuestosController : Controller
         }
         return View(presupuesto);
     }
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var presupuestoEditar = _presupuestoRepository.GetById(id);
+        return View(presupuestoEditar);
+    } //Funciona
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        var presupuesto = _presupuestoRepository.GetById(id);
+        if (presupuesto is null) return RedirectToAction("Index"); //Por precausion
+        return View(presupuesto);
+    }
+    [HttpPost]
+    public IActionResult Delete(Presupuestos presupuesto)
+    {
+        return View();
+    }
 }
