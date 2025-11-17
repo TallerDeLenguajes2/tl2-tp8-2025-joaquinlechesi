@@ -78,6 +78,14 @@ public class ProductosController : Controller
     {
         var producto = _productoRepository.GetById(id);
         if (producto is null) return RedirectToAction("Index");
-        return View();
+        return View(producto); //Funcionando
+    }
+    [HttpPost]
+    public IActionResult Delete(Productos producto)
+    {
+        _productoRepository.DeleteById(producto.IdProducto);
+        //if (producto is null) return RedirectToAction("Index");
+        //return View();
+        return RedirectToAction("Index"); //Funcionando
     }
 }

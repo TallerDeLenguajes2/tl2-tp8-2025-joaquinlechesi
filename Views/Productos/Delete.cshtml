@@ -1,4 +1,25 @@
 @model Productos
 
 <h2>¿Desea eliminar el siguiente producto?</h2>
+<section>
+    <p>Descripcion: @Model.Description</p>
+    <p>Precio: @Model.Precio</p>
+</section>
 
+<form asp-action="Edit" method="post" class="form-horizontal">
+    <section class="form-group">
+        @* <label asp-for="Description" class="control-label">Descripcion</label> *@
+        <input asp-for="Description" type="hidden" class="form-control">
+    </section>
+    <section class="form-group">
+        @* <label asp-for="Precio" class="control-label">Precio</label> *@
+        <input asp-for="Precio" type="hidden" class="form-control">
+    </section>
+    <section>
+        <input asp-for="IdProducto" type="hidden">
+    </section>
+    <section class="form-group">
+        <button type="submit" class="btn btn-primary">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </section>
+</form>

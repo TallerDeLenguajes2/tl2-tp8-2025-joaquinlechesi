@@ -10,20 +10,20 @@
         <tr>
             <th>Nombre</th>
             <th>Precio</th>
-            <th>Stock</th>
-            @* <th>Acciones</th> *@
+            <th>Accciones</th>
+            @* <th></th> *@
         </tr>
     </thead>
     <tbody>
         @foreach (Productos item in Model)
         {
             <tr>
-                <td>@item.IdProducto</td>
+                @* <td>@item.IdProducto</td> *@
                 <td>@item.Description</td>
                 <td>@item.Precio</td>
                 <td>
                     <a asp-controller="Productos" asp-action="Edit" asp-route-id="@item.IdProducto" class="btn btn-warning">Modificar</a>
-                    @* <a asp-controller ="Producto" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a> *@
+                    <a asp-controller ="Productos" asp-action="Delete" asp-route-id="@item.IdProducto" class="btn btn-danger">Eliminar</a>
                 </td>
             </tr>
         }
