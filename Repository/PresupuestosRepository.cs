@@ -43,7 +43,7 @@ public class PresupuestoRepository
         return presupuestos;
     }
     // Obtener detalles de un Presupuesto por su ID
-    public Presupuestos GetById(int id)
+    public Presupuestos GetDetallesById(int id)
     {
         using var connection = new SqliteConnection(cadenaConexion);
         var presupuesto = new Presupuestos();
@@ -104,6 +104,38 @@ public class PresupuestoRepository
 
         return presupuesto;
     }
+    //Obtener Presupuesto por ID sin los detalles
+    public Presupuestos GetById(int id)
+    {
+        using var connection = new SqliteConnection(cadenaConexion);
+        var presupuesto = new Presupuestos();
+        connection.Open();
+        string query = @"SELECT
+                         p.idPresupuestos,
+                         p.NombreDestinatario,
+                         p.FechaCreacion
+                         FROM Presupuestos p
+                         WHERE p.idPresupuestos = @id";
+        using var command = new SqliteCommand(query, connection);
+        command.Parameters.Add(new SqliteParameter("@id", id));
+
+        using var lector = command.ExecuteReader();
+
+        presupuesto = null;
+        if (lector.Read())
+        {
+            presupuesto = new Presupuestos()
+            {
+                IdPresupuestos = Convert.ToInt32(lector["idPresupuestos"]),
+                NombreDestinatario = lector["NombreDestinatario"].ToString(),
+                FechaCreacion = Convert.ToDateTime(lector["FechaCreacion"]),
+                Detalle = new List<PresupuestosDetalle>()
+            };
+        }
+        connection.Close();
+
+        return presupuesto;
+    }
     // Agregar un producto y una cantidad a un Presupuesto
     public void agregarAPresupuesto(int idPresupuesto, int idProducto, int cantidad)
     {
@@ -131,7 +163,6 @@ public class PresupuestoRepository
 
         connection.Close();
     }
-
 
     // public List<Productos> GetAll()
     // {

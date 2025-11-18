@@ -69,7 +69,7 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult Details(int id)
     {
-        var presupuesto = _presupuestoRepository.GetById(id);
+        var presupuesto = _presupuestoRepository.GetDetallesById(id);
         if (presupuesto is null)
         {
             return RedirectToAction("Home");
@@ -92,6 +92,8 @@ public class PresupuestosController : Controller
     [HttpPost]
     public IActionResult Delete(Presupuestos presupuesto)
     {
-        return View();
+        _presupuestoRepository.DeleteById(presupuesto.IdPresupuestos);
+        return RedirectToAction("Presupuestos");
+        //return View();
     }
 }
