@@ -163,6 +163,23 @@ public class PresupuestoRepository
 
         connection.Close();
     }
+    // Modificar un presupuesto
+    public void ModificarById(Presupuestos presupuesto)
+    {
+        using var connection = new SqliteConnection(cadenaConexion);
+        string query =@"UPDATE Presupuestos
+                        SET NombreDestinatario = @nombre, FechaCreacion = @fecha
+                        WHERE idPresupuestos = @id";
+        using var command = new SqliteCommand(query, connection);
+        command.Parameters.Add(new SqliteParameter("@nombre", presupuesto.NombreDestinatario));
+        command.Parameters.Add(new SqliteParameter("@fecha", presupuesto.FechaCreacion));
+        command.Parameters.Add(new SqliteParameter("@id", presupuesto.IdPresupuestos));
+        connection.Open();
+
+        command.ExecuteNonQuery();
+
+        connection.Close();
+    }
 
     // public List<Productos> GetAll()
     // {

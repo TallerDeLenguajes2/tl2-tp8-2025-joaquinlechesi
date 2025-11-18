@@ -82,6 +82,12 @@ public class PresupuestosController : Controller
         var presupuestoEditar = _presupuestoRepository.GetById(id);
         return View(presupuestoEditar);
     } //Funciona
+    [HttpPost]
+    public IActionResult Edit(Presupuestos presupuesto)
+    {
+        _presupuestoRepository.ModificarById(presupuesto);
+        return RedirectToAction("Index"); // Funcionando
+    }
     [HttpGet]
     public IActionResult Delete(int id)
     {
