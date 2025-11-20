@@ -155,10 +155,12 @@ public class PresupuestoRepository
     public void DeleteById(int idPresupuesto)
     {
         using var connection = new SqliteConnection(cadenaConexion);
-        connection.Open();
-        string query = @"DELETE FROM Presupuestos
-                            WHERE idPresupuestos = @id";
+        string query =@"DELETE FROM Presupuestos
+                        WHERE idPresupuestos = @id";
         using var command = new SqliteCommand(query, connection);
+        command.Parameters.Add(new SqliteParameter("@id", idPresupuesto));
+        connection.Open();
+        
         command.ExecuteNonQuery();
 
         connection.Close();

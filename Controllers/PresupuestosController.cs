@@ -93,13 +93,13 @@ public class PresupuestosController : Controller
     {
         var presupuesto = _presupuestoRepository.GetById(id);
         if (presupuesto is null) return RedirectToAction("Index"); //Por precausion
-        return View(presupuesto);
+        return View(presupuesto); //Funciona
     }
     [HttpPost]
     public IActionResult Delete(Presupuestos presupuesto)
     {
         _presupuestoRepository.DeleteById(presupuesto.IdPresupuestos);
-        return RedirectToAction("Presupuestos");
+        return RedirectToAction("Index"); //Funciona
         //return View();
     }
 }
