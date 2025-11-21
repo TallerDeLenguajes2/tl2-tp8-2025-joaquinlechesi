@@ -1,5 +1,7 @@
 using MiWebAPI.Models;
+using MiWebAPI.ViewModels.ProductoViewModel;
 using Microsoft.AspNetCore.Mvc;
+using MiWebAPI.ViewModels.AgregarProductoViewModel;
 
 namespace MiWebAPI.Controllers;
 
@@ -54,12 +56,19 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        var producto = new Productos();
+        //var producto = new Productos();
+        var producto = new AgregarProductoViewModel();
         return View(producto);
     }
     [HttpPost]
-    public IActionResult Create(Productos nuevoProducto)
+    public IActionResult Create(AgregarProductoViewModel nuevoProductoVM)
     {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index");
+        }
+        //transformar ese vm -> model
+        var nuevoProducto = new Productos(nuevoProductoVM);
         _productoRepository.nuevoProducto(nuevoProducto);
         return RedirectToAction("Index");
     }

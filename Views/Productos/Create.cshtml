@@ -1,4 +1,5 @@
-@model Productos
+@using MiWebAPI.ViewModels.AgregarProductoViewModel
+@model AgregarProductoViewModel
 
 <h2>Crear Producto</h2>
 
@@ -6,10 +7,12 @@
     <section class="form-group">
         <label asp-for="Description" class="control-label">Descripcion</label>
         <input asp-for="Description" type="text" class="form-control">
+        <span asp-validation-for="Description" class="text-danger"></span> @* la etiqueta span es necesaria para mostrar el "ErrorMessage" puesto en la etiqueta [Required] *@
     </section>
     <section class="form-group">
         <label asp-for="Precio" class="control-label">Precio</label>
         <input asp-for="Precio" type="text" class="form-control">
+        <span asp-validation-for="Precio" class="text-danger"></span>
     </section>
     <section class="form-group mt-2">
         <button type="submit" class="btn btn-primary">Crear</button>
@@ -18,3 +21,7 @@
 </form>
 
 <partial name="_ValidationScriptsPartial" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
