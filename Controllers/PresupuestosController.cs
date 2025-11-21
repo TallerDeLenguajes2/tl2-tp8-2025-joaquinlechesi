@@ -1,5 +1,7 @@
+using MiWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
+namespace MiWebAPI.Controllers;
 public class PresupuestosController : Controller
 {
     private PresupuestoRepository _presupuestoRepository;

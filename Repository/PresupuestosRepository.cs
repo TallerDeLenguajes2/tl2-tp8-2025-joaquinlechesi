@@ -1,9 +1,7 @@
+using MiWebAPI.Models;
 using System.Linq.Expressions;
 using Microsoft.Data.Sqlite;
-namespace MiWebAPI
-{
-    
-}
+
 public class PresupuestoRepository
 {
     private string cadenaConexion = "Data source = Db/Tienda.db";

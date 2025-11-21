@@ -1,3 +1,4 @@
+using MiWebAPI.Models;
 using Microsoft.Data.Sqlite;
 public class ProductoRepository
 {

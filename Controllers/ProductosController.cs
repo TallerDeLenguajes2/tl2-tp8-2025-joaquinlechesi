@@ -1,4 +1,7 @@
+using MiWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+
+namespace MiWebAPI.Controllers;
 
 //[ApiController]
 //[Route("[controller]")]

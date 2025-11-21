@@ -1,7 +1,4 @@
-namespace MiWebAPI
-{
-    
-}
+namespace MiWebAPI.Models;
 public class PresupuestosDetalle
 {
     public Productos productos { get; set; }
