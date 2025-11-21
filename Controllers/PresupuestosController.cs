@@ -1,5 +1,6 @@
 using MiWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using MiWebAPI.ViewModels.PresupuestosViewModel;
 
 namespace MiWebAPI.Controllers;
 public class PresupuestosController : Controller
@@ -53,11 +54,11 @@ public class PresupuestosController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        var presupuestos = new Presupuestos();
+        var presupuestos = new CrearPresupuestosViewModel();
         return View(presupuestos); //Funcionando
     }
     [HttpPost]
-    public IActionResult Create(Presupuestos nuevoPresupuesto)
+    public IActionResult Create(CrearPresupuestosViewModel nuevoPresupuestoVM)
     {
         // var presupuestos = new Presupuestos
         // {
@@ -65,6 +66,15 @@ public class PresupuestosController : Controller
         //     FechaCreacion = nuevoPresupuesto.FechaCreacion.Date
         // };
         //return View(presupuestos);
+        var nuevoPresupuesto = new Presupuestos();
+        if (nuevoPresupuestoVM.Correo.ToString() == "")
+        {
+            nuevoPresupuesto.NombreDestinatario = nuevoPresupuestoVM.NombreDestinatario;
+        }else
+        {
+            nuevoPresupuesto.NombreDestinatario = nuevoPresupuestoVM.Correo.ToString();
+        }
+        nuevoPresupuesto.FechaCreacion = nuevoPresupuestoVM.FechaCreacion;
         _presupuestoRepository.AltaPresupuesto(nuevoPresupuesto);
         return RedirectToAction("Index"); //Funcionando
     }
