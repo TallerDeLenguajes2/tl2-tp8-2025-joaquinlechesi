@@ -1,19 +1,32 @@
-@using MiWebAPI.Models
-@model Presupuestos
+@using MiWebAPI.ViewModels.PresupuestosViewModel
+@model CrearPresupuestosViewModel
 
 <h2>Crear Presupuesto</h2>
 
 <form asp-action="Create" method="post">
+    @* <section class="form-group"> *@
     <section class="form-group">
-        <label asp-for="NombreDestinatario" class="control-label">Nombre del destinatario</label>
+        <label asp-for="NombreDestinatario" class="control-label">Nombre del destinatario:</label>
         <input asp-for="NombreDestinatario" type="text" class="form-control">
+        <span asp-validation-for="NombreDestinatario" class="text-danger"></span>
     </section>
     <section class="form-group">
-        <label asp-for="FechaCreacion" class="control-label">Fecha</label>
+        <label asp-for="Correo" class="control-label">Correo electronico (opcional):</label>
+        <input asp-for="Correo" type="text" class="form-control">
+        <span asp-validation-for="Correo" class="text-danger"></span>
+    </section>
+        <label asp-for="FechaCreacion" class="control-label">Fecha:</label>
         <input asp-for="FechaCreacion" type="text" class="form-control">
+        <span asp-validation-for="FechaCreacion" class="text-danger"></span>
     </section>
     <section class="form-group mt-2">
         <button type="submit" class="btn btn-primary">Crear</button>
         <a asp-action="Index" class="btn btn-secondary">Volver</a>
     </section>
 </form>
+
+<partial name="_ValidationScriptsPartial" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
