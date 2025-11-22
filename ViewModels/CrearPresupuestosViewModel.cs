@@ -7,11 +7,11 @@ namespace MiWebAPI.ViewModels.PresupuestosViewModel
     {
         // [Required]
         // public int IdPresupuestos { get; set; }
-        [Required(ErrorMessage = "Debe ingresar un nombre")]
+        [Required(ErrorMessage = "Debe ingresar un nombre.")]
         public string NombreDestinatario { get; set; }
-        [EmailAddress(ErrorMessage = "Debe tener formato de correo electronico")]
+        [EmailAddress(ErrorMessage = "Debe tener formato de correo electronico.")]
         public string Correo { get; set; }
-        [Required][DataType(DataType.Date)] //Falta controlar que la fecha sea menor a la actual
+        [Required(ErrorMessage = "Debe ingresar una fecha.")][DataType(DataType.Date)] //Falta controlar que la fecha sea menor a la actual
         public DateTime FechaCreacion { get; set; }
         // public PresupuestosViewModel()
         // {
