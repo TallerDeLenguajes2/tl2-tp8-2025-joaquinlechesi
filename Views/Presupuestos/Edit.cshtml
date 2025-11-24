@@ -1,5 +1,5 @@
-@using MiWebAPI.Models
-@model Presupuestos
+@using MiWebAPI.ViewModels.PresupuestosViewModel
+@model EditarPresupuestosViewModel
 
 <h2>Actualizar Presupuesto</h2>
 
@@ -7,16 +7,30 @@
     <section class="form-group">
         <label asp-for="NombreDestinatario" class="control-label">Nombre del destinatario</label>
         <input asp-for="NombreDestinatario" type="text" class="form-control">
+        <span asp-validation-for="NombreDestinatario" class="text-danger"></span>
+    </section>
+    <section class="form-group">
+        <label asp-for="Correo" class="control-label">Correo electronico (opcional):</label>
+        <input asp-for="Correo" type="text" class="form-control">
+        <span asp-validation-for="Correo" class="text-danger"></span>
     </section>
     <section class="form-group">
         <label asp-for="FechaCreacion" class="control-label">Precio</label>
         <input asp-for="FechaCreacion" type="date" class="form-control">
+        <span asp-validation-for="FechaCreacion" class="text-danger"></span>
     </section>
     <section>
         <input asp-for="IdPresupuestos" type="hidden">
+        <span asp-validation-for="IdPresupuestos" class="text-danger"></span>
     </section>
     <section class="form-group">
         <button type="submit" class="btn btn-primary">Editar</button>
         <a asp-action="Index" class="btn btn-secondary">Volver</a>
     </section>
 </form>
+
+<partial name="_ValidationScriptsPartial" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} @* validacion del lado del cliente *@
+}
