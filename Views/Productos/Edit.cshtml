@@ -1,5 +1,5 @@
-@using MiWebAPI.Models
-@model Productos
+@using MiWebAPI.ViewModels.ProductoViewModel
+@model EditarProductoViewModel
 
 <h2>Actualizar Producto</h2>
 
@@ -7,10 +7,12 @@
     <section class="form-group">
         <label asp-for="Description" class="control-label">Descripcion</label>
         <input asp-for="Description" type="text" class="form-control">
+        <span asp-validation-for="Description" class="text-danger"></span>
     </section>
     <section class="form-group">
         <label asp-for="Precio" class="control-label">Precio</label>
         <input asp-for="Precio" type="text" class="form-control">
+        <span asp-validation-for="Precio" class="text-danger"></span>
     </section>
     <section>
         <input asp-for="IdProducto" type="hidden">
@@ -20,3 +22,9 @@
         <a asp-action="Index" class="btn btn-secondary">Volver</a>
     </section>
 </form>
+
+<partial name="_ValidationScriptsPartial" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
