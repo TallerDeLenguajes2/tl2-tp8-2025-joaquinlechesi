@@ -85,8 +85,14 @@ public class ProductosController : Controller
         return View(productoVM); //Funciona
     }
     [HttpPost]
-    public IActionResult Edit(Productos productoEditado)
+    public IActionResult Edit(EditarProductoViewModel productoEditadoVM)
     {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Index");
+        }
+        //transformar ese vm -> model
+        var productoEditado = new Productos(productoEditadoVM);
         _productoRepository.modificarProducto(productoEditado.IdProducto, productoEditado);
         return RedirectToAction("Index"); //Dirige a index //Funciona
     }
