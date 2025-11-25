@@ -1,14 +1,18 @@
 using MiWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using MiWebAPI.ViewModels.PresupuestosViewModel;
+using MiWebAPI.ViewModels.AgregarProductoViewModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MiWebAPI.Controllers;
 public class PresupuestosController : Controller
 {
     private PresupuestoRepository _presupuestoRepository;
+    private ProductoRepository _productoRepository;
     public PresupuestosController()
     {
         _presupuestoRepository = new PresupuestoRepository();
+        _productoRepository = new ProductoRepository();
     }
     [HttpPost("postPresupuesto")]
     public IActionResult AltaPresupuesto(Presupuestos nuevoPresupuestos)
@@ -113,5 +117,17 @@ public class PresupuestosController : Controller
         _presupuestoRepository.DeleteById(presupuesto.IdPresupuestos);
         return RedirectToAction("Index"); //Funciona
         //return View();
+    }
+    [HttpGet]
+    public IActionResult AgregarProducto(int id)
+    {
+        var productos = _productoRepository.GetAll();
+
+        var agregarProducto = new AgregarProductoViewModel
+        {
+            IdPresupuestos = id,
+            ListaProductos = new SelectList(productos, "IdProducto", "Description")
+        };
+        return View(agregarProducto);
     }
 }
