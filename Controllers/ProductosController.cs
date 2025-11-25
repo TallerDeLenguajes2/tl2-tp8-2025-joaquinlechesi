@@ -87,9 +87,9 @@ public class ProductosController : Controller
     [HttpPost]
     public IActionResult Edit(EditarProductoViewModel productoEditadoVM)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid) //Chequeo de validez
         {
-            return RedirectToAction("Index");
+            return RedirectToAction("Index"); //Falta retornar con el View(ViewModel)
         }
         //transformar ese vm -> model
         var productoEditado = new Productos(productoEditadoVM);
