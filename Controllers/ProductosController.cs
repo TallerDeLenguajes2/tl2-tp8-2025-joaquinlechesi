@@ -58,7 +58,7 @@ public class ProductosController : Controller
     {
         //var producto = new Productos();
         var producto = new CrearProductoViewModel();
-        return View(producto);
+        return View(producto); //Funcionando
     }
     [HttpPost]
     public IActionResult Create(CrearProductoViewModel nuevoProductoVM)
@@ -69,6 +69,10 @@ public class ProductosController : Controller
         }
         //transformar ese vm -> model
         var nuevoProducto = new Productos(nuevoProductoVM);
+        if (nuevoProductoVM.Description is null) //Logica de negocio
+        {
+            nuevoProducto.Description = "";
+        }
         _productoRepository.nuevoProducto(nuevoProducto);
         return RedirectToAction("Index");
     }
