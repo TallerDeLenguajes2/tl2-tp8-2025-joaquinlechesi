@@ -69,7 +69,7 @@ public class ProductosController : Controller
         }
         //transformar ese vm -> model
         var nuevoProducto = new Productos(nuevoProductoVM);
-        if (nuevoProductoVM.Description is null) //Logica de negocio
+        if (nuevoProductoVM.Description is null) //Logica de negocio?
         {
             nuevoProducto.Description = "";
         }
