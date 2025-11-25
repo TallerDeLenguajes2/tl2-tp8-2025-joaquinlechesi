@@ -81,7 +81,8 @@ public class ProductosController : Controller
     {
         var producto = _productoRepository.GetById(id);
         if (producto is null) RedirectToAction("Index");
-        return View(producto); //Funciona
+        var productoVM = new EditarProductoViewModel(producto);
+        return View(productoVM); //Funciona
     }
     [HttpPost]
     public IActionResult Edit(Productos productoEditado)
