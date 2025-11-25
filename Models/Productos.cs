@@ -15,7 +15,7 @@ public class Productos
         Description = productoVM.Description;
         Precio = productoVM.Precio;
     }
-    public Productos(EditarProductoViewModel productoVM)
+    public Productos(EditarProductoViewModel productoVM) //Trabaja con el ViewModel
     {
         IdProducto = productoVM.IdProducto;
         Description = productoVM.Description;
