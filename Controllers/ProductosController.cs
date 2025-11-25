@@ -57,11 +57,11 @@ public class ProductosController : Controller
     public IActionResult Create()
     {
         //var producto = new Productos();
-        var producto = new Productos();
+        var producto = new CrearProductoViewModel();
         return View(producto);
     }
     [HttpPost]
-    public IActionResult Create(AgregarProductoViewModel nuevoProductoVM)
+    public IActionResult Create(CrearProductoViewModel nuevoProductoVM)
     {
         if (!ModelState.IsValid)
         {

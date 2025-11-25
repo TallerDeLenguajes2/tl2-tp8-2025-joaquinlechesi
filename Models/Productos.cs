@@ -1,4 +1,4 @@
-using MiWebAPI.ViewModels.AgregarProductoViewModel;
+//using MiWebAPI.ViewModels.AgregarProductoViewModel;
 using MiWebAPI.ViewModels.ProductoViewModel;
 namespace MiWebAPI.Models;
 public class Productos
@@ -10,7 +10,7 @@ public class Productos
     {
         
     }
-    public Productos(AgregarProductoViewModel productoVM)
+    public Productos(CrearProductoViewModel productoVM)
     {
         Description = productoVM.Description;
         Precio = productoVM.Precio;
