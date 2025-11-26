@@ -88,7 +88,7 @@ public class PresupuestosController : Controller
         var presupuesto = _presupuestoRepository.GetDetallesById(id);
         if (presupuesto is null)
         {
-            return RedirectToAction("Home");
+            return RedirectToAction("Index"); //Cuando el PresupuestoDetalle no posee nada
         }
         return View(presupuesto);
     }
@@ -130,4 +130,17 @@ public class PresupuestosController : Controller
         };
         return View(agregarProducto);
     }
+    [HttpPost]
+    public IActionResult AgregarProducto(AgregarProductoViewModel productoVM)
+    {
+        if (!ModelState.IsValid)
+        {
+            var productos = _productoRepository.GetAll();
+            productoVM.ListaProductos = new SelectList(productos, "IdProducto", "Description");
+            return View(productoVM);
+        }
+        _presupuestoRepository.agregarAPresupuesto(productoVM.IdPresupuestos, productoVM.IdProducto, productoVM.Cantidad);
+        return RedirectToAction(nameof(Details), new{ id = productoVM.IdPresupuestos});
+    }
+
 }
