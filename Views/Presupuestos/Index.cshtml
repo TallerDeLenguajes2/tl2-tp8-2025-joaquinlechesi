@@ -23,9 +23,10 @@
                 <td>@item.NombreDestinatario</td>
                 <td>@item.FechaCreacion.ToString("dd-MM-yyyy")</td>
                 <td>
-                    <a asp-controller="Presupuestos" asp-action="Details" asp-route-id="@item.IdPresupuestos" class="btn btn-warning">Detalles del presupuesto</a>
+                    <a asp-controller="Presupuestos" asp-action="Details" asp-route-id="@item.IdPresupuestos" class="btn btn-warning">Detalles</a>
                     <a asp-controller ="Presupuestos" asp-action="Edit" asp-route-id="@item.IdPresupuestos" class="btn btn-danger">Editar</a>
                     <a asp-controller ="Presupuestos" asp-action="Delete" asp-route-id="@item.IdPresupuestos" class="btn btn-danger">Borrar</a>
+                    <a asp-controller ="Presupuestos" asp-action="AgregarProducto" asp-route-id="@item.IdPresupuestos" class="m-2 btn btn-danger">Agregar producto</a>
                 </td>
             </tr>
         }
