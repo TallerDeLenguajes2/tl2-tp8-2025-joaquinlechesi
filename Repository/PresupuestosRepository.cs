@@ -138,13 +138,16 @@ public class PresupuestoRepository
     public void agregarAPresupuesto(int idPresupuesto, int idProducto, int cantidad)
     {
         using var connection = new SqliteConnection(cadenaConexion);
+
         connection.Open();
-        string query = @"INSERT INTO PresupuestosDetalles (idPresupuesto, idProducto, Cantidad)
+        
+        string query = @"INSERT INTO PresupuestosDetalle (idPresupuesto, idProducto, Cantidad)
                          VALUES (@IdPresupuesto, @IdProducto, @cantidad)";
         using var command = new SqliteCommand(query, connection);
         command.Parameters.Add(new SqliteParameter("@IdPresupuesto", idPresupuesto));
         command.Parameters.Add(new SqliteParameter("@IdProducto", idProducto));
-        command.Parameters.Add(new SqliteParameter("@Cantidad", cantidad));
+        command.Parameters.Add(new SqliteParameter("@cantidad", cantidad));
+
         command.ExecuteNonQuery();
 
         connection.Close();
