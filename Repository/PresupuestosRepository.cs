@@ -1,9 +1,12 @@
 using MiWebAPI.Models;
+using MiWebAPI.Interfaces;
 using System.Linq.Expressions;
 using Microsoft.Data.Sqlite;
 
-public class PresupuestoRepository
+namespace MiWebAPI.Repository.PresupuestoRepository
 {
+    public class PresupuestoRepository
+    {
     private string cadenaConexion = "Data source = Db/Tienda.db";
     // Crea un nuevo Presupuesto
     public void AltaPresupuesto(Presupuestos NuevoPresupuesto)
@@ -183,34 +186,5 @@ public class PresupuestoRepository
 
         connection.Close();
     }
-
-    // public List<Productos> GetAll()
-    // {
-    //     string query = "SELECT * FROM Productos";
-    //     List<Productos> productos = [];
-    //     using var conecction = new SqliteConnection(cadenaConexion);
-    //     conecction.Open();
-
-    //     var command = new SqliteCommand(query, conecction);
-
-    //     using (SqliteDataReader reader = command.ExecuteReader())
-    //     {
-    //         while (reader.Read())
-    //         {
-    //             // var producto = new Productos
-    //             // {
-    //             //     Id = Convert.ToInt32(reader["idProducto"]),
-    //             //     Descripcion = reader["Descripcion"].ToString(),
-    //             //     Precio = Convert.ToInt32(reader["Precio"])
-    //             // };
-    //             var producto = new Productos();
-    //             producto.IdProducto = Convert.ToInt32(reader["idProducto"]);
-    //             producto.Description = reader["Descripcion"].ToString();
-    //             producto.Precio = Convert.ToInt32(reader["Precio"]);
-    //             productos.Add(producto);
-    //         }
-    //     }
-    //     conecction.Close();
-    //     return productos;
-    // }
+}    
 }
