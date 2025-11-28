@@ -1,4 +1,5 @@
 using MiWebAPI.Models;
+using MiWebAPI.Interfaces;
 using MiWebAPI.Repository.PresupuestoRepository;
 using MiWebAPI.Repository.ProductoRepository;
 using Microsoft.AspNetCore.Mvc;
@@ -9,12 +10,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace MiWebAPI.Controllers;
 public class PresupuestosController : Controller
 {
-    private PresupuestoRepository _presupuestoRepository;
-    private ProductoRepository _productoRepository;
-    public PresupuestosController()
+    private IPresupuestoRepository _presupuestoRepository;
+    private IProductoRepository _productoRepository;
+    public PresupuestosController(IPresupuestoRepository presupuestoRepository, IProductoRepository productoRepository)
     {
-        _presupuestoRepository = new PresupuestoRepository();
-        _productoRepository = new ProductoRepository();
+        _presupuestoRepository = presupuestoRepository;
+        _productoRepository = productoRepository;
     }
     [HttpPost("postPresupuesto")]
     public IActionResult AltaPresupuesto(Presupuestos nuevoPresupuestos)

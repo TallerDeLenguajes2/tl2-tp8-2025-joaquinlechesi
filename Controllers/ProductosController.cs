@@ -1,4 +1,5 @@
 using MiWebAPI.Models;
+using MiWebAPI.Interfaces;
 using MiWebAPI.Repository.ProductoRepository;
 using MiWebAPI.ViewModels.ProductoViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,11 @@ namespace MiWebAPI.Controllers;
 public class ProductosController : Controller
 {
     private readonly ILogger<ProductosController> _logger;
-    private ProductoRepository _productoRepository;
-    public ProductosController()
+    private IProductoRepository _productoRepository;
+    public ProductosController(IProductoRepository productoRepository)
     {
         _productoRepository = new ProductoRepository();
+        _productoRepository = productoRepository;
     }
     [HttpPost("postAgregarProducto")]
     public IActionResult PostAgregarPedido([FromBody] Productos NuevoProducto)
