@@ -12,11 +12,13 @@ namespace MiWebAPI.Controllers;
 public class ProductosController : Controller
 {
     private readonly ILogger<ProductosController> _logger;
-    private IProductoRepository _productoRepository;
-    public ProductosController(IProductoRepository productoRepository)
+    private readonly IProductoRepository _productoRepository;
+    private readonly IAuthenticationService _service;
+    public ProductosController(IProductoRepository productoRepository, IAuthenticationService service)
     {
         _productoRepository = new ProductoRepository();
         _productoRepository = productoRepository;
+        _service = service;
     }
     [HttpPost("postAgregarProducto")]
     public IActionResult PostAgregarPedido([FromBody] Productos NuevoProducto)

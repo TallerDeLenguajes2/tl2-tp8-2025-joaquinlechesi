@@ -10,12 +10,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace MiWebAPI.Controllers;
 public class PresupuestosController : Controller
 {
-    private IPresupuestoRepository _presupuestoRepository;
-    private IProductoRepository _productoRepository;
-    public PresupuestosController(IPresupuestoRepository presupuestoRepository, IProductoRepository productoRepository)
+    private readonly IPresupuestoRepository _presupuestoRepository;
+    private readonly IProductoRepository _productoRepository;
+    private readonly IAuthenticationService _service;
+    public PresupuestosController(IPresupuestoRepository presupuestoRepository, IProductoRepository productoRepository, IAuthenticationService service)
     {
         _presupuestoRepository = presupuestoRepository;
         _productoRepository = productoRepository;
+        _service = service;
     }
     [HttpPost("postPresupuesto")]
     public IActionResult AltaPresupuesto(Presupuestos nuevoPresupuestos)
