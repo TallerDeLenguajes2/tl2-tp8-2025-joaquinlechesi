@@ -5,7 +5,7 @@ using Microsoft.Data.Sqlite;
 
 namespace MiWebAPI.Repository.PresupuestoRepository
 {
-    public class PresupuestoRepository
+    public class PresupuestoRepository : IPresupuestoRepository
     {
     private string cadenaConexion = "Data source = Db/Tienda.db";
     // Crea un nuevo Presupuesto

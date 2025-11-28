@@ -1,9 +1,10 @@
 using MiWebAPI.Models;
 using Microsoft.Data.Sqlite;
+using MiWebAPI.Interfaces;
 
 namespace MiWebAPI.Repository.ProductoRepository
 {
-    public class ProductoRepository
+    public class ProductoRepository : IProductoRepository
     {
         private string cadenaConexion = "Data source = Db/Tienda.db";
         // Crear un nuevo Producto

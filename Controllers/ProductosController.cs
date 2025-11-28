@@ -1,4 +1,5 @@
 using MiWebAPI.Models;
+using MiWebAPI.Repository.ProductoRepository;
 using MiWebAPI.ViewModels.ProductoViewModel;
 using Microsoft.AspNetCore.Mvc;
 using MiWebAPI.ViewModels.AgregarProductoViewModel;
