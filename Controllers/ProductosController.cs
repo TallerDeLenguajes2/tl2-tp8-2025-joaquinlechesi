@@ -13,12 +13,12 @@ public class ProductosController : Controller
 {
     private readonly ILogger<ProductosController> _logger;
     private readonly IProductoRepository _productoRepository;
-    private readonly IAuthenticationService _service;
-    public ProductosController(IProductoRepository productoRepository, IAuthenticationService service)
+    private readonly IAuthenticationService _authService;
+    public ProductosController(IProductoRepository productoRepository, IAuthenticationService authService)
     {
         _productoRepository = new ProductoRepository();
         _productoRepository = productoRepository;
-        _service = service;
+        _authService = authService;
     }
     [HttpPost("postAgregarProducto")]
     public IActionResult PostAgregarPedido([FromBody] Productos NuevoProducto)
@@ -55,12 +55,33 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Index()
     {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         List<Productos> productos = _productoRepository.GetAll();
         return View(productos);
+    }
+    private IActionResult CheckAdminPermissions()
+    { // 1. No logueado? -> vuelve al login
+        if (!_authService.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        } // 2. No es Administrador? -> Da Error
+        if (!_authService.HasAccessLevel("Administrador"))
+        { 
+            // Llamamos a AccesoDenegado (llama a la vista correspondiente de Productos)
+            return RedirectToAction("AccesoDenegado");
+        }
+        return null; // Permiso concedido
     }
     [HttpGet]
     public IActionResult Create()
     {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
         //var producto = new Productos();
         var producto = new CrearProductoViewModel();
         return View(producto); //Funcionando
@@ -68,6 +89,10 @@ public class ProductosController : Controller
     [HttpPost]
     public IActionResult Create(CrearProductoViewModel nuevoProductoVM)
     {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+        
         if (!ModelState.IsValid)
         {
             return RedirectToAction("Index");
@@ -84,6 +109,10 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+        
         var producto = _productoRepository.GetById(id);
         if (producto is null) RedirectToAction("Index");
         var productoVM = new EditarProductoViewModel(producto);
@@ -92,6 +121,10 @@ public class ProductosController : Controller
     [HttpPost]
     public IActionResult Edit(EditarProductoViewModel productoEditadoVM)
     {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+        
         if (!ModelState.IsValid) //Chequeo de validez
         {
             return RedirectToAction("Index"); //Falta retornar con el View(ViewModel)
@@ -104,6 +137,10 @@ public class ProductosController : Controller
     [HttpGet]
     public IActionResult Delete(int id)
     {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+        
         var producto = _productoRepository.GetById(id);
         if (producto is null) return RedirectToAction("Index");
         return View(producto); //Funcionando
@@ -111,6 +148,10 @@ public class ProductosController : Controller
     [HttpPost]
     public IActionResult Delete(Productos producto)
     {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+        
         _productoRepository.DeleteById(producto.IdProducto);
         //if (producto is null) return RedirectToAction("Index");
         //return View();

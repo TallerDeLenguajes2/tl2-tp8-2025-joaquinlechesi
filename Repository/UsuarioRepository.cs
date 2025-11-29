@@ -1,7 +1,7 @@
 using MiWebAPI.Interfaces;
 using MiWebAPI.Models;
 using Microsoft.Data.Sqlite;
-namespace MiWebAPI.Repository;
+namespace MiWebAPI.Repository.UsuarioRepository;
 
 public class UsuarioRepository : IUserRepository
 {

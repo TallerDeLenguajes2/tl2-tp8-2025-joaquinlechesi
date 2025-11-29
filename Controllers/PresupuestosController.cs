@@ -12,12 +12,12 @@ public class PresupuestosController : Controller
 {
     private readonly IPresupuestoRepository _presupuestoRepository;
     private readonly IProductoRepository _productoRepository;
-    private readonly IAuthenticationService _service;
-    public PresupuestosController(IPresupuestoRepository presupuestoRepository, IProductoRepository productoRepository, IAuthenticationService service)
+    private readonly IAuthenticationService _authService;
+    public PresupuestosController(IPresupuestoRepository presupuestoRepository, IProductoRepository productoRepository, IAuthenticationService authService)
     {
         _presupuestoRepository = presupuestoRepository;
         _productoRepository = productoRepository;
-        _service = service;
+        _authService = authService;
     }
     [HttpPost("postPresupuesto")]
     public IActionResult AltaPresupuesto(Presupuestos nuevoPresupuestos)
@@ -57,95 +57,208 @@ public class PresupuestosController : Controller
     [HttpGet]
     public ActionResult Index()
     {
-        List<Presupuestos> presupuestos = _presupuestoRepository.GetAll();
-        return View(presupuestos);
+        // Comprobación de si está logueado
+        if (!_authService.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        } // Verifica Nivel de acceso que necesite validar
+        if (_authService.HasAccessLevel("Administrador") || _authService.HasAccessLevel("Cliente") )
+        { //si es es valido entra sino vuelve a login
+            List<Presupuestos> presupuestos = _presupuestoRepository.GetAll();
+            return View(presupuestos);
+        } else {
+            return RedirectToAction("Index", "Login");
+        }
     }
     [HttpGet]
     public IActionResult Create()
     {
-        var presupuestos = new CrearPresupuestosViewModel();
-        return View(presupuestos); //Funcionando
+        // Comprobación de si está logueado
+        if (!_authService.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        }
+        // Verifica Nivel de acceso
+        if (!_authService.HasAccessLevel("Administrador"))
+        {
+            return RedirectToAction("AccesoDenegado");
+        } else
+        {
+            var presupuestos = new CrearPresupuestosViewModel();
+            return View(presupuestos); //Funcionando
+        }
     }
     [HttpPost]
     public IActionResult Create(CrearPresupuestosViewModel nuevoPresupuestoVM)
     {
-        // var presupuestos = new Presupuestos
-        // {
-        //     NombreDestinatario = nuevoPresupuesto.NombreDestinatario,
-        //     FechaCreacion = nuevoPresupuesto.FechaCreacion.Date
-        // };
-        //return View(presupuestos);
-        var nuevoPresupuesto = new Presupuestos();
-        if (nuevoPresupuestoVM.Correo.ToString() == "")
+        // Comprobación de si está logueado
+        if (!_authService.IsAuthenticated())
         {
-            nuevoPresupuesto.NombreDestinatario = nuevoPresupuestoVM.NombreDestinatario;
-        }else
-        {
-            nuevoPresupuesto.NombreDestinatario = nuevoPresupuestoVM.Correo.ToString();
+            return RedirectToAction("Index", "Login");
         }
-        nuevoPresupuesto.FechaCreacion = nuevoPresupuestoVM.FechaCreacion;
-        _presupuestoRepository.AltaPresupuesto(nuevoPresupuesto);
-        return RedirectToAction("Index"); //Funcionando
+        // Verifica Nivel de acceso
+        if (!_authService.HasAccessLevel("Administrador"))
+        {
+            return RedirectToAction("AccesoDenegado");
+        } else {    
+            var nuevoPresupuesto = new Presupuestos();
+            if (nuevoPresupuestoVM.Correo.ToString() == "")
+            {
+                nuevoPresupuesto.NombreDestinatario = nuevoPresupuestoVM.NombreDestinatario;
+            } else {
+                nuevoPresupuesto.NombreDestinatario = nuevoPresupuestoVM.Correo.ToString();
+            }
+            nuevoPresupuesto.FechaCreacion = nuevoPresupuestoVM.FechaCreacion;
+            _presupuestoRepository.AltaPresupuesto(nuevoPresupuesto);
+            return RedirectToAction("Index"); //Funcionando
+        }
     }
     [HttpGet]
     public IActionResult Details(int id)
     {
-        var presupuesto = _presupuestoRepository.GetDetallesById(id);
-        if (presupuesto is null)
+        // Comprobación de si está logueado
+        if (!_authService.IsAuthenticated())
         {
-            return RedirectToAction("Index"); //Cuando el PresupuestoDetalle no posee nada
+            return RedirectToAction("Index", "Login");
         }
-        return View(presupuesto);
+        // Verifica Nivel de acceso
+        if (!_authService.HasAccessLevel("Administrador"))
+        {
+            return RedirectToAction("AccesoDenegado");
+        } else
+        {
+            var presupuesto = _presupuestoRepository.GetDetallesById(id);
+            if (presupuesto is null)
+            {
+                return RedirectToAction("Index"); //Cuando el PresupuestoDetalle no posee nada
+            }
+            return View(presupuesto);
+        }
     }
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        var presupuestoEditar = _presupuestoRepository.GetById(id);
-        return View(presupuestoEditar);
+        // Comprobación de si está logueado
+        if (!_authService.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        }
+        // Verifica Nivel de acceso
+        if (!_authService.HasAccessLevel("Administrador"))
+        {
+            return RedirectToAction("AccesoDenegado");
+        } else
+        {
+            var presupuestoEditar = _presupuestoRepository.GetById(id);
+            return View(presupuestoEditar);
+        }
     } //Funciona
     [HttpPost]
     public IActionResult Edit(Presupuestos presupuesto)
     {
-        _presupuestoRepository.ModificarById(presupuesto);
-        return RedirectToAction("Index"); // Funcionando
+        // Comprobación de si está logueado
+        if (!_authService.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        }
+        // Verifica Nivel de acceso
+        if (!_authService.HasAccessLevel("Administrador"))
+        {
+            return RedirectToAction("AccesoDenegado");
+        } else
+        {
+            _presupuestoRepository.ModificarById(presupuesto);
+            return RedirectToAction("Index"); // Funcionando
+        }
     }
     [HttpGet]
     public IActionResult Delete(int id)
     {
-        var presupuesto = _presupuestoRepository.GetById(id);
-        if (presupuesto is null) return RedirectToAction("Index"); //Por precausion
-        return View(presupuesto); //Funciona
+        // Comprobación de si está logueado
+        if (!_authService.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        }
+        // Verifica Nivel de acceso
+        if (!_authService.HasAccessLevel("Administrador"))
+        {
+            return RedirectToAction("AccesoDenegado");
+        } else
+        {
+            var presupuesto = _presupuestoRepository.GetById(id);
+            if (presupuesto is null) return RedirectToAction("Index"); //Por precausion
+            return View(presupuesto); //Funciona
+        }
     }
     [HttpPost]
     public IActionResult Delete(Presupuestos presupuesto)
     {
-        _presupuestoRepository.DeleteById(presupuesto.IdPresupuestos);
-        return RedirectToAction("Index"); //Funciona
-        //return View();
+        // Comprobación de si está logueado
+        if (!_authService.IsAuthenticated())
+        {
+            return RedirectToAction("Index", "Login");
+        }
+        // Verifica Nivel de acceso
+        if (!_authService.HasAccessLevel("Administrador"))
+        {
+            return RedirectToAction("AccesoDenegado");
+        } else
+        {
+            _presupuestoRepository.DeleteById(presupuesto.IdPresupuestos);
+            return RedirectToAction("Index"); //Funciona
+            //return View();
+        }
     }
     [HttpGet]
     public IActionResult AgregarProducto(int id)
     {
-        var productos = _productoRepository.GetAll();
-
-        var agregarProducto = new AgregarProductoViewModel
+        // Comprobación de si está logueado
+        if (!_authService.IsAuthenticated())
         {
-            IdPresupuestos = id,
-            ListaProductos = new SelectList(productos, "IdProducto", "Description")
-        };
-        return View(agregarProducto);
+            return RedirectToAction("Index", "Login");
+        }
+        // Verifica Nivel de acceso
+        if (!_authService.HasAccessLevel("Administrador"))
+        {
+            return RedirectToAction("AccesoDenegado");
+        } else
+        {
+            var productos = _productoRepository.GetAll();
+
+            var agregarProducto = new AgregarProductoViewModel
+            {
+                IdPresupuestos = id,
+                ListaProductos = new SelectList(productos, "IdProducto", "Description")
+            };
+            return View(agregarProducto);
+        }
     }
     [HttpPost]
     public IActionResult AgregarProducto(AgregarProductoViewModel productoVM)
     {
-        if (!ModelState.IsValid)
+        // Comprobación de si está logueado
+        if (!_authService.IsAuthenticated())
         {
-            var productos = _productoRepository.GetAll();
-            productoVM.ListaProductos = new SelectList(productos, "IdProducto", "Description");
-            return View(productoVM);
+            return RedirectToAction("Index", "Login");
         }
-        _presupuestoRepository.agregarAPresupuesto(productoVM.IdPresupuestos, productoVM.IdProducto, productoVM.Cantidad);
-        return RedirectToAction(nameof(Details), new{ id = productoVM.IdPresupuestos});
+        // Verifica Nivel de acceso
+        if (!_authService.HasAccessLevel("Administrador"))
+        {
+            return RedirectToAction("AccesoDenegado");
+        } else
+        {
+            if (!ModelState.IsValid)
+            {
+                var productos = _productoRepository.GetAll();
+                productoVM.ListaProductos = new SelectList(productos, "IdProducto", "Description");
+                return View(productoVM);
+            }
+            _presupuestoRepository.agregarAPresupuesto(productoVM.IdPresupuestos, productoVM.IdProducto, productoVM.Cantidad);
+            return RedirectToAction(nameof(Details), new{ id = productoVM.IdPresupuestos});
+        }
     }
-
+    public IActionResult AccesoDenegado()
+    {
+        return View();
+    }
 }
