@@ -61,9 +61,11 @@ public class PresupuestosController : Controller
         if (!_authService.IsAuthenticated())
         {
             return RedirectToAction("Index", "Login");
-        } // Verifica Nivel de acceso que necesite validar
+        }
+        // Verifica Nivel de acceso que necesite validar
         if (_authService.HasAccessLevel("Administrador") || _authService.HasAccessLevel("Cliente") )
-        { //si es es valido entra sino vuelve a login
+        {
+            //si es es valido entra sino vuelve a login
             List<Presupuestos> presupuestos = _presupuestoRepository.GetAll();
             return View(presupuestos);
         } else {

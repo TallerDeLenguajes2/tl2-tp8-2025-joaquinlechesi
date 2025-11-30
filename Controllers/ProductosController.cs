@@ -52,7 +52,7 @@ public class ProductosController : Controller
         _productoRepository.DeleteById(id);
         return Ok();
     }
-    private IActionResult CheckAdminPermissions()
+    private IActionResult CheckAdminPermissions() // Permite acceder solo si esta logueado y es administrador
     { // 1. No logueado? -> vuelve al login
         if (!_authService.IsAuthenticated())
         {

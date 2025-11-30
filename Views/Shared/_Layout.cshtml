@@ -26,20 +26,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Presupuestos" asp-action="Index">Presupuestos</a>
-                        </li>
                         @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
                         @{
                             var isAuthenticated = false;
                             var username = string.Empty;
+                            var userRol = string.Empty;
                             if (HttpContextAccessor.HttpContext.Session.GetString("IsAuthenticated") == "true")
                             {
                                 isAuthenticated = true;
                                 username = HttpContextAccessor.HttpContext.Session.GetString("User");
+                                userRol = HttpContextAccessor.HttpContext.Session.GetString("Rol");
+                            }
+                            if(isAuthenticated){ //Funciona, no muestra los enlaces cuando no se está logueado
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Presupuestos" asp-action="Index">Presupuestos</a>
+                                </li>
                             }
                             if(!isAuthenticated){
                                 <li class="nav-item">

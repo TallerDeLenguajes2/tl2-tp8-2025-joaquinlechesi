@@ -1,10 +1,26 @@
 @using MiWebAPI.Models
+@* @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var isAuthenticated = false;
+    var username = string.Empty;
+    var userRol = string.Empty;
+    if (HttpContextAccessor.HttpContext.Session.GetString("IsAuthenticated") == "true")
+    {
+        isAuthenticated = true;
+        username = HttpContextAccessor.HttpContext.Session.GetString("User");
+        userRol = HttpContextAccessor.HttpContext.Session.GetString("Rol");
+    }
+} *@
 
 <h2>Lista de Productos</h2>
 
 <p>
     <a asp-controller="Productos" asp-action="Create" class="btn btn-primary">Crear Nuevo Producto</a>
 </p>
+@* @{
+    if(isAuthenticated){
+    }
+} *@
 
 <table class="table">
     <thead>
@@ -12,6 +28,10 @@
             <th>Nombre</th>
             <th>Precio</th>
             <th>Accciones</th>
+            @* @{
+                if(userRol == "Administrador"){
+                }
+            } *@
             @* <th></th> *@
         </tr>
     </thead>
@@ -26,6 +46,10 @@
                     <a asp-controller ="Productos" asp-action="Edit" asp-route-id="@item.IdProducto" class="btn btn-warning">Modificar</a>
                     <a asp-controller ="Productos" asp-action="Delete" asp-route-id="@item.IdProducto" class="btn btn-danger">Eliminar</a>
                 </td>
+                @* @{
+                if(userRol == "Administrador"){
+                } *@
+            }
             </tr>
         }
     </tbody>

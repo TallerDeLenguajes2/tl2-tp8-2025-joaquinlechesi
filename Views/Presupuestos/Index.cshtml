@@ -1,10 +1,26 @@
 @using MiWebAPI.Models
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var isAuthenticated = false;
+    var username = string.Empty;
+    var userRol = string.Empty;
+    if (HttpContextAccessor.HttpContext.Session.GetString("IsAuthenticated") == "true")
+    {
+        isAuthenticated = true;
+        username = HttpContextAccessor.HttpContext.Session.GetString("User");
+        userRol = HttpContextAccessor.HttpContext.Session.GetString("Rol");
+    }
+}
 
 <h2>Lista de Presupuestos</h2>
 
-<p>
-    <a asp-controller="Presupuestos" asp-action="Create" class="btn btn-primary">Crear Nuevo Presupuesto</a>
-</p>
+@{
+    if(userRol == "Administrador"){
+        <p>
+            <a asp-controller="Presupuestos" asp-action="Create" class="btn btn-primary">Crear Nuevo Presupuesto</a>
+        </p>
+    }
+}
 
 <table class="table">
     <thead>
@@ -12,7 +28,9 @@
             <th>ID del Presupuesto</th>
             <th>Nombre del Destinatario</th>
             <th>Fecha de creacion</th>
-            <th>Acciones</th>
+            @{
+                if(userRol == "Administrador") { <th>Acciones</th> }
+            }
         </tr>
     </thead>
     <tbody>
@@ -22,12 +40,16 @@
                 <td>@item.IdPresupuestos</td>
                 <td>@item.NombreDestinatario</td>
                 <td>@item.FechaCreacion.ToString("dd-MM-yyyy")</td>
-                <td>
-                    <a asp-controller="Presupuestos" asp-action="Details" asp-route-id="@item.IdPresupuestos" class="btn btn-warning">Detalles</a>
-                    <a asp-controller ="Presupuestos" asp-action="Edit" asp-route-id="@item.IdPresupuestos" class="btn btn-danger">Editar</a>
-                    <a asp-controller ="Presupuestos" asp-action="Delete" asp-route-id="@item.IdPresupuestos" class="btn btn-danger">Borrar</a>
-                    <a asp-controller ="Presupuestos" asp-action="AgregarProducto" asp-route-id="@item.IdPresupuestos" class="m-2 btn btn-danger">Agregar producto</a>
-                </td>
+                @{
+                    if(userRol == "Administrador"){
+                        <td>
+                            <a asp-controller="Presupuestos" asp-action="Details" asp-route-id="@item.IdPresupuestos" class="btn btn-warning">Detalles</a>
+                            <a asp-controller ="Presupuestos" asp-action="Edit" asp-route-id="@item.IdPresupuestos" class="btn btn-danger">Editar</a>
+                            <a asp-controller ="Presupuestos" asp-action="Delete" asp-route-id="@item.IdPresupuestos" class="btn btn-danger">Borrar</a>
+                            <a asp-controller ="Presupuestos" asp-action="AgregarProducto" asp-route-id="@item.IdPresupuestos" class="m-2 btn btn-danger">Agregar producto</a>
+                        </td>
+                    }
+                }
             </tr>
         }
     </tbody>
