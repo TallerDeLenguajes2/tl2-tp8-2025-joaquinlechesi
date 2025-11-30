@@ -157,8 +157,8 @@ public class ProductosController : Controller
         //return View();
         return RedirectToAction("Index"); //Funcionando
     }
-    // public IActionResult AccesoDenegado()
-    // {
-    //     return View();
-    // }
+    public IActionResult AccesoDenegado()
+    {
+        return View();
+    }
 }

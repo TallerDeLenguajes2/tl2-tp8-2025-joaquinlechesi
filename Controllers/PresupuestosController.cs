@@ -132,7 +132,8 @@ public class PresupuestosController : Controller
             var presupuesto = _presupuestoRepository.GetDetallesById(id);
             if (presupuesto is null)
             {
-                return RedirectToAction("Index"); //Cuando el PresupuestoDetalle no posee nada
+                //Agregar una vista para el error
+                return RedirectToAction("Error"); //Cuando el PresupuestoDetalle no posee nada
             }
             return View(presupuesto);
         }
@@ -260,6 +261,10 @@ public class PresupuestosController : Controller
         }
     }
     public IActionResult AccesoDenegado()
+    {
+        return View();
+    }
+    public IActionResult Error()
     {
         return View();
     }
