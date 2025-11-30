@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var isAuthenticated = false;
+    var username = string.Empty;
+    var userRol = string.Empty;
+    var usuario = "No hay usuario logueado";
+    if (HttpContextAccessor.HttpContext.Session.GetString("IsAuthenticated") == "true")
+    {
+        isAuthenticated = true;
+        username = HttpContextAccessor.HttpContext.Session.GetString("User");
+        userRol = HttpContextAccessor.HttpContext.Session.GetString("Rol");
+        usuario = "Usted está logueado, su rol es: " + userRol;
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,9 +25,10 @@
 </head>
 <body>
     <header>
+        <h3>@usuario</h3>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">tl2_tp8_2025_joaquinlechesi</a>
+                @* <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@username</a> *@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,17 +41,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
                         @{
-                            var isAuthenticated = false;
-                            var username = string.Empty;
-                            var userRol = string.Empty;
-                            if (HttpContextAccessor.HttpContext.Session.GetString("IsAuthenticated") == "true")
-                            {
-                                isAuthenticated = true;
-                                username = HttpContextAccessor.HttpContext.Session.GetString("User");
-                                userRol = HttpContextAccessor.HttpContext.Session.GetString("Rol");
-                            }
                             if(isAuthenticated){ //Funciona, no muestra los enlaces cuando no se está logueado
                                 // Muestra el enlace a Productos solo si el usuario logueado es Administrador
                                 if(userRol == "Administrador"){
