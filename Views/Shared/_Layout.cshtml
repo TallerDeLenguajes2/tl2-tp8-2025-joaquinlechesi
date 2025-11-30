@@ -38,9 +38,11 @@
                                 userRol = HttpContextAccessor.HttpContext.Session.GetString("Rol");
                             }
                             if(isAuthenticated){ //Funciona, no muestra los enlaces cuando no se está logueado
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
-                                </li>
+                                if(userRol == "Administrador"){
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
+                                    </li>
+                                }
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Presupuestos" asp-action="Index">Presupuestos</a>
                                 </li>

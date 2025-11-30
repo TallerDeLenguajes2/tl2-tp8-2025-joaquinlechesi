@@ -1,12 +1,12 @@
 @using MiWebAPI.Models
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
-    var isAuthenticated = false;
+    //var isAuthenticated = false;
     var username = string.Empty;
     var userRol = string.Empty;
     if (HttpContextAccessor.HttpContext.Session.GetString("IsAuthenticated") == "true")
     {
-        isAuthenticated = true;
+        //isAuthenticated = true;
         username = HttpContextAccessor.HttpContext.Session.GetString("User");
         userRol = HttpContextAccessor.HttpContext.Session.GetString("Rol");
     }
