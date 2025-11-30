@@ -52,16 +52,6 @@ public class ProductosController : Controller
         _productoRepository.DeleteById(id);
         return Ok();
     }
-    [HttpGet]
-    public IActionResult Index()
-    {
-        // Aplicamos el chequeo de seguridad
-        var securityCheck = CheckAdminPermissions();
-        if (securityCheck != null) return securityCheck;
-
-        List<Productos> productos = _productoRepository.GetAll();
-        return View(productos);
-    }
     private IActionResult CheckAdminPermissions()
     { // 1. No logueado? -> vuelve al login
         if (!_authService.IsAuthenticated())
@@ -74,6 +64,16 @@ public class ProductosController : Controller
             return RedirectToAction("AccesoDenegado");
         }
         return null; // Permiso concedido
+    }
+    [HttpGet]
+    public IActionResult Index()
+    {
+        // Aplicamos el chequeo de seguridad
+        var securityCheck = CheckAdminPermissions();
+        if (securityCheck != null) return securityCheck;
+
+        List<Productos> productos = _productoRepository.GetAll();
+        return View(productos);
     }
     [HttpGet]
     public IActionResult Create()
@@ -156,5 +156,9 @@ public class ProductosController : Controller
         //if (producto is null) return RedirectToAction("Index");
         //return View();
         return RedirectToAction("Index"); //Funcionando
+    }
+    public IActionResult AccesoDenegado()
+    {
+        return View();
     }
 }

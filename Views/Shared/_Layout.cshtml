@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - tl2_tp8_2025_joaquinlechesi</title>
+    <title>@ViewData["Title"] - tl2_tp10_2025_joaquinlechesi</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -32,9 +32,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Presupuestos" asp-action="Index">Presupuestos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Inciciar sesion</a>
-                        </li>
+                        @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+                        @{
+                            var isAuthenticated = false;
+                            var username = string.Empty;
+                            if (HttpContextAccessor.HttpContext.Session.GetString("IsAuthenticated") == "true")
+                            {
+                                isAuthenticated = true;
+                                username = HttpContextAccessor.HttpContext.Session.GetString("User");
+                            }
+                            if(!isAuthenticated){
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Inciar sesion</a>
+                                </li>
+                            }else{
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">Cerrar sesion</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>
